@@ -1,0 +1,36 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+' Program to drive bot in sqaure loops
+
+counter VAR Word
+pulseWidth VAR Word
+pulseWidthComp VAR Word
+direction VAR Word
+
+FREQOUT 3, 1000, 3000
+
+DO
+    DEBUG CR, "Enter Direction (1-straight, 2-turn): "
+    DEBUGIN DEC direction
+
+    DEBUG CR, "Enter Pulse Width: "
+    DEBUGIN DEC pulseWidth
+
+    IF (direction = 1) THEN
+      pulseWidthComp = 1500 - pulseWidth
+
+      FOR counter = 1 TO 122
+        PULSOUT 12, pulseWidth
+        PULSOUT 13, pulseWidthComp
+        PAUSE 20
+      NEXT
+    ELSEIF (direction = 2) THEN
+      FOR counter = 1 TO 122
+        PULSOUT 12, pulseWidth
+        PULSOUT 13, pulseWidth
+        PAUSE 20
+      NEXT
+    ENDIF
+
+LOOP
+

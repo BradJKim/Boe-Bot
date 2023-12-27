@@ -19,6 +19,9 @@
   <ul>
     <li>Simple Pin LEDs</li>
     <li>Square Turning</li>
+    <li>Basic Driving</li>
+    <li>Ramping</li>
+    <li>EEPROM Instructions</li>
   </ul>
 </p>
   

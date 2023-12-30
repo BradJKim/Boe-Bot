@@ -1,0 +1,71 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+' Testing Whiskers and display I/O pins connected to whisker sensors
+
+' Variables
+
+pulseCount VAR Byte
+
+' Main Routine
+
+Main:
+  ' Initialization
+  FREQOUT 4, 1000, 3000
+
+  DO
+
+    IF (IN5 = 0) AND (IN7 = 0) THEN
+      HIGH 1
+      HIGH 10
+      GOSUB Backward
+      GOSUB Turn_Left
+      GOSUB Turn_Left
+    ELSEIF(IN5 = 0) THEN
+      HIGH 10
+      GOSUB Backward
+      GOSUB Turn_Right
+    ELSEIF(IN7 = 0) THEN
+      HIGH 1
+      GOSUB Backward
+      GOSUB Turn_Left
+    ELSE
+      GOSUB Forward
+      LOW 1
+      LOW 10
+    ENDIF
+
+  LOOP
+
+  END
+
+' Subroutines
+
+Forward:
+  PULSOUT 12, 850
+  PULSOUT 13, 650
+  PAUSE 20
+  RETURN
+
+Turn_Left:
+  FOR pulseCount = 0 TO 20
+    PULSOUT 13, 650
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Right:
+  FOR pulseCount = 0 TO 20
+    PULSOUT 13, 850
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+Backward:
+  FOR pulseCount = 0 TO 40
+    PULSOUT 12, 650
+    PULSOUT 13, 850
+    PAUSE 20
+  NEXT
+  RETURN

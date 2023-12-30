@@ -1,0 +1,59 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+irDetectLeft VAR Bit
+irDetectRight VAR Bit
+pulseCount VAR Byte
+
+FREQOUT 6, 1000, 3000
+
+DO
+
+    FREQOUT 8, 1, 38500
+    irDetectLeft = IN9
+
+    FREQOUT 2, 1, 38500
+    irDetectRight = IN0
+
+    IF (irDetectLeft = 0) AND (irDetectRight = 0) THEN
+      GOSUB Backward
+    ELSEIF (irDetectLeft = 0) THEN
+      GOSUB Right
+    ELSEIF (irDetectRight = 0) THEN
+      GOSUB Left
+    ELSE
+      GOSUB Forward
+    ENDIF
+
+    DEBUG HOME, "Left: ", BIN1 irDetectLeft, CR, "Right: ", BIN1 irDetectRight
+
+LOOP
+
+
+Forward:
+  PULSOUT 12, 850
+  PULSOUT 13, 650
+  PAUSE 20
+  RETURN
+
+Backward:
+  PULSOUT 12, 650
+  PULSOUT 13, 850
+  PAUSE 20
+  RETURN
+
+Left:
+  FOR pulseCount = 0 TO 20
+    PULSOUT 13, 650
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+Right:
+  FOR pulseCount = 0 TO 20
+    PULSOUT 13, 850
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN

@@ -1,0 +1,47 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+irDetectLeft VAR Bit
+irDetectRight VAR Bit
+pulseLeft VAR Word
+pulseRight VAR Word
+
+FREQOUT 6, 1000, 3000
+
+DO
+
+  FREQOUT 8, 1, 38500
+    irDetectLeft = IN9
+
+  FREQOUT 2, 1, 38500
+  irDetectRight = IN0
+
+  IF (irDetectLeft = 0) AND (irDetectRight = 0) THEN
+    HIGH 10
+    HIGH 1
+    pulseLeft = 650
+    pulseRight = 850
+  ELSEIF (irDetectLeft = 0) THEN
+    HIGH 10
+    LOW 1
+    pulseLeft = 650
+    pulseRight = 700
+  ELSEIF (irDetectRight = 0) THEN
+    HIGH 1
+    LOW 10
+    pulseLeft = 800
+    pulseRight = 850
+  ELSE
+    pulseLeft = 650
+    pulseRight = 750
+    LOW 10
+    LOW 1
+  ENDIF
+
+  DEBUG HOME, "Left: ", BIN1 irDetectLeft, CR, "Right: ", BIN1 irDetectRight
+
+  PULSOUT 13, pulseLeft
+  PULSOUT 12, pulseRight
+  PAUSE 15
+
+LOOP

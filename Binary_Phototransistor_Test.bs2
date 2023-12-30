@@ -1,0 +1,21 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+' Test for Binary phototransistor
+' Goes forward until output voltage exceeds 1.4 V, in which IN6 = 1
+
+PAUSE 1000
+DEBUG CLS
+
+FREQOUT 4, 1000, 3000
+
+DO
+
+  DEBUG HOME, "in6 = ", BIN IN6
+  IF (IN6 = 0) THEN
+    PULSOUT 12, 850
+    PULSOUT 13, 650
+    PAUSE 20
+  ENDIF
+
+LOOP
+

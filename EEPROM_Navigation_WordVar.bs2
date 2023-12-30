@@ -1,0 +1,41 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+' Variables
+  counter VAR Word
+  pulseCount VAR Word
+  addressOffset VAR Byte
+  pulseRight VAR Word
+  pulseLeft VAR Word
+
+' EEPROM Data
+
+' addressOffset   0        2        4        6        8
+Pulses_Count DATA Word 64, Word 24, Word 24, Word 64, Word 0
+Pulses_Left  DATA Word 850, Word 650, Word 850, Word 650
+Pulses_Right DATA Word 650, Word 650, Word 850, Word 850
+
+' Init
+
+FREQOUT 3, 1000, 3000
+
+' Main Routine
+
+Main:
+  DO
+
+    READ Pulses_Count + addressOffset, Word pulseCount
+    READ Pulses_Left + addressOffset, Word pulseLeft
+    READ Pulses_Right + addressOffset, Word pulseRight
+
+    addressOffset = addressOffset + 2
+
+    FOR counter = 1 TO pulseCount
+      PULSOUT 13, pulseLeft
+      PULSOUT 12, pulseRight
+      PAUSE 20
+    NEXT
+
+    LOOP UNTIL (pulseCount = 0)
+
+  END
